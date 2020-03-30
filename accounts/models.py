@@ -7,10 +7,14 @@ from main import models as main_models
 
 
 class Applicant(User):
-    GENDER_CHOICE = (
-        ('male', 'Мужской'),
-        ('female', 'Женский')
-    )
+    class Gender:
+        male = 'male'
+        female = 'female'
+        CHOICES = (
+            (male, 'Мужской'),
+            (female, 'Женский')
+        )
+
     user = models.OneToOneField(
         User,
         parent_link=True,
@@ -35,7 +39,7 @@ class Applicant(User):
     )
     patronymic = models.CharField('Отчество', max_length=100, default='', blank=True)
     phone = PhoneNumberField('Номер телефона', default='', blank=True)
-    gender = models.CharField('Пол', max_length=100, choices=GENDER_CHOICE)
+    gender = models.CharField('Пол', max_length=100, choices=Gender.CHOICES)
     photo = models.ImageField('Фото', upload_to="applicants/", blank=True)
     birth_date = models.DateField('Дата рождения', default=timezone.now)
     about = models.TextField('Обо мне', max_length=5000, default='', blank=True)
@@ -105,11 +109,16 @@ class Employer(User):
 
 
 class Sentence(models.Model):
-    TYPE_CHOICES = (
-        ('conditional', 'Условно'),
-        ('penalty', 'Штраф'),
-        ('liberty_deprivation', 'Лишение свободы')
-    )
+    class Type:
+        conditional = 'conditional'
+        penalty = 'penalty'
+        liberty_deprivation = 'liberty_deprivation'
+
+        CHOICES = (
+            ('conditional', 'Условно'),
+            ('penalty', 'Штраф'),
+            ('liberty_deprivation', 'Лишение свободы')
+        )
     articles = models.ManyToManyField(
         main_models.CriminalArticle,
         verbose_name='Статьи',
@@ -122,7 +131,7 @@ class Sentence(models.Model):
         on_delete=models.DO_NOTHING,
         null=True
     )
-    type = models.CharField('Тип', choices=TYPE_CHOICES, max_length=100, default='')
+    type = models.CharField('Тип', choices=Type.CHOICES, max_length=100, default='')
     start_date = models.DateField('Дата начала', default=timezone.now)
     end_date = models.DateField('Дата окончания', default=timezone.now)
 

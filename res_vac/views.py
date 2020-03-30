@@ -38,12 +38,6 @@ class ResumeCreate(CreateWithInlinesView):
         messages.success(self.request, self.success_message)
         return response
 
-    def forms_invalid(self, form, inlines):
-        print('errors', form.errors)
-        for inline in inlines:
-            print('inline', inline.errors)
-        return super().forms_invalid(form, inlines)
-
 
 @method_decorator(auth_check_decorator(user_rel_name='applicant'), name='dispatch')
 class ResumeUpdate(UpdateWithInlinesView):
@@ -89,13 +83,6 @@ class ResumeUpdate(UpdateWithInlinesView):
         # Adding success message
         messages.success(self.request, self.success_message)
         return response
-
-    def forms_invalid(self, form, inlines):
-        print('errors', form.errors)
-        for inline in inlines:
-            print(inline.model)
-            print('inline', inline.errors)
-        return super().forms_invalid(form, inlines)
 
 
 class ResumeDelete(gc.DeleteView):

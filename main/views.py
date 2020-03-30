@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views import generic as gc
 from accounts import models as accounts_models
 from res_vac import models as res_vac_models

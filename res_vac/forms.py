@@ -24,7 +24,6 @@ class RecommendationInline(InlineFormSetFactory):
 class VacancyCreate(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VacancyCreate, self).__init__(*args, **kwargs)
-        # self.fields['phone'].widget.attrs['title'] = 'В формате +7ХХХ ХХХ ХХ ХХ'
 
     class Meta:
         model = models.Vacancy

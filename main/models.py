@@ -1,16 +1,20 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
-from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 
 
 class Area(models.Model):
-    TYPE_CHOICES = (
-        ('county', 'Страна'),
-        ('region', 'Регион'),
-        ('city/district', 'Город/район')
-    )
+    class Type:
+        county = 'county'
+        region = 'region'
+        city_district = 'city_district'
+
+        CHOICES = (
+            (county, 'Страна'),
+            (region, 'Регион'),
+            (city_district, 'Город/район')
+        )
+
     parent_area = models.ForeignKey(
         'self',
         verbose_name='Страна/Регион',
@@ -20,7 +24,7 @@ class Area(models.Model):
         blank=True,
     )
     name = models.CharField('Название', max_length=255, default='')
-    type = models.CharField('Тип', choices=TYPE_CHOICES, max_length=255, default='region')
+    type = models.CharField('Тип', choices=Type.CHOICES, max_length=255, default='region')
     hh_code = models.IntegerField('Head Hunter код', null=True, blank=True)
 
     def __str__(self):

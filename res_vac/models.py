@@ -119,12 +119,18 @@ class Job(models.Model):
 
 
 class Education(models.Model):
-    LEVEL_CHOICES = (
-        ('gen_elementary', 'Начальное общее'),
-        ('gen_basic', 'Основное общее'),
-        ('spec_secondary', 'Среднее специальное'),
-        ('higher', 'Высшее образование')
-    )
+    class Level:
+        gen_elementary = 'gen_elementary'
+        gen_basic = 'gen_basic'
+        spec_secondary = 'spec_secondary'
+        higher = 'higher'
+
+        CHOICES = (
+            (gen_elementary, 'Начальное общее'),
+            (gen_basic, 'Основное общее'),
+            (spec_secondary, 'Среднее специальное'),
+            (higher, 'Высшее образование')
+        )
     specialization = models.ForeignKey(
         Specialization,
         verbose_name='Специальность',
@@ -140,7 +146,7 @@ class Education(models.Model):
         null=True
     )
     institution = models.CharField('Учебное заведение', max_length=200, default='')
-    level = models.CharField('Уровень образования', max_length=100, choices=LEVEL_CHOICES, null=True)
+    level = models.CharField('Уровень образования', max_length=100, choices=Level.CHOICES, null=True)
     start_date = models.DateField('Дата начала', default=timezone.now)
     end_date = models.DateField('Дата окончания', default=timezone.now)
 
